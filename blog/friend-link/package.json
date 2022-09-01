@@ -4,7 +4,7 @@
   "description": "blog's friend link",
   "main": "index.js",
   "files": [
-    "dist/index.js"
+    "dist/*"
   ],
   "scripts": {
     "build": "node process.js",

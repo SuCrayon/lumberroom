@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-function install() {
-    npm install minimist --save-dev
-}
-
 function parse() {
     node src/process.js parse
 }
@@ -13,7 +9,6 @@ function build() {
 }
 
 function main() {
-    install
     eval "$1"
 }
 

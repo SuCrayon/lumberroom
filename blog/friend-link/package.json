@@ -19,6 +19,7 @@
   "email": "614820984@qq.com",
   "license": "ISC",
   "devDependencies": {
-    "minimist": "^1.2.6"
+    "minimist": "^1.2.6",
+    "request": "^2.88.2"
   }
 }

@@ -2,9 +2,10 @@
  * @Author: Crayon
  * @Date: 2022-09-01 13:59:21
  * @Last Modified by: Crayon
- * @LastEditTime: 2022-09-01 18:28:26
+ * @LastEditTime: 2022-09-01 19:22:15
  */
 const fs = require('fs')
+const request = require('request')
 const {
     DIR, SUFFIX, DIST, DEST_NAME, TEMPLATE
 } = require('./common')
@@ -39,6 +40,14 @@ function build() {
     if (!fs.existsSync(DIST)) {
         fs.mkdirSync(DIST)
     }
+    // 跳过证书认证
+    process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
+    // 下载头像图片
+    assets.forEach(e => {
+        request(e.avatar).pipe(
+            fs.createWriteStream(`${DIST}/${e.name}.jpg`)
+        )
+    })
     fs.writeFileSync(`${DIST}/${DEST_NAME}`, content)
 }
 

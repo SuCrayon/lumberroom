@@ -2,7 +2,7 @@
  * @Author: Crayon
  * @Date: 2022-09-01 13:59:21
  * @Last Modified by: Crayon
- * @LastEditTime: 2022-09-01 16:48:35
+ * @LastEditTime: 2022-09-01 18:28:26
  */
 const fs = require('fs')
 const {
@@ -21,9 +21,15 @@ function parse() {
     let res = []
     dirs.forEach(e => {
         let content = fs.readFileSync(e, { encoding: 'utf-8' })
-        res.push(JSON.parse(content))
+        let obj = JSON.parse(content)
+        if (obj['order'] === null || obj['order'] === undefined) {
+            obj['order'] = Infinity
+        }
+        res.push(obj)
     })
     console.log(`total parse ${res.length}`)
+    // 根据order字段排序
+    res.sort()
     return res
 }
 

@@ -1,12 +1,7 @@
 {
-    "class_name": "友情链接",
-    "class_desc": "那些人，那些事",
-    "link_list": [
-        {
-            "name": "ZhengwenFeng's blog",
-            "link": "https://tenqaz.github.io/",
-            "avatar": "https://tenqaz.github.io/img/me.jpg",
-            "descr": "穷则变，变则通，通则久"
-        }
-    ]
+    "name": "ZhengwenFeng's blog",
+    "link": "https://tenqaz.github.io/",
+    "avatar": "https://tenqaz.github.io/img/me.jpg",
+    "descr": "穷则变，变则通，通则久",
+    "order": 1
 }

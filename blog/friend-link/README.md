@@ -1,8 +1,6 @@
 # Help
 
-该页面为我的博客`sucrayon.top`的友链添加页面，大家可以自行根据规则添加友情链接
-
-`assets`
+该页面为我的博客`sucrayon.top`/`sucrayon.github.io`的友链添加页面，大家可以自行根据规则添加友情链接
 
 字段说明
 

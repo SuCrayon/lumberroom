@@ -16,10 +16,10 @@
     "friendship link"
   ],
   "author": "Crayon",
-  "email": "614820984@qq.com",
+  "email": "sucrayon@foxmail.com",
   "license": "ISC",
   "devDependencies": {
-    "minimist": "^1.2.6",
+    "minio": "^7.1.1",
     "request": "^2.88.2"
   }
 }

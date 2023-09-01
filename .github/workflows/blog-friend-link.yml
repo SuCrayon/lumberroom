@@ -47,11 +47,16 @@ jobs:
         run: node src/main.js
         env:
           COMMIT_ID: ${{ github.sha }}
-          ENDPOINT: ${{ secrets.MINIO_ENDPOINT }}
-          PORT: ${{ secrets.MINIO_PORT }}
-          ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
-          SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
           CLASS_DESC: ${{ vars.BLOG_CLASS_DESC }}
           CLASS_NAME: ${{ vars.BLOG_CLASS_NAME }}
-          BUCKET_NAME: ${{ vars.BLOG_BUCKET_NAME }}
-          OBJECT_NAME: ${{ vars.BLOG_OBJECT_NAME }}
+          MINIO_ENDPOINT: ${{ secrets.MINIO_ENDPOINT }}
+          MINIO_PORT: ${{ secrets.MINIO_PORT }}
+          MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+          MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
+          MINIO_BUCKET_NAME: ${{ vars.MINIO_BUCKET_NAME }}
+          MINIO_OBJECT_NAME: ${{ vars.MINIO_OBJECT_NAME }}
+          ALIYUN_OSS_REGION: ${{ secrets.ALIYUN_OSS_REGION }}
+          ALIYUN_OSS_ACCESS_KEY: ${{ secrets.ALIYUN_OSS_ACCESS_KEY }}
+          ALIYUN_OSS_SECRET_KEY: ${{ secrets.ALIYUN_OSS_SECRET_KEY }}
+          ALIYUN_OSS_BUCKET: ${{ vars.ALIYUN_OSS_BUCKET }}
+          ALIYUN_OSS_OBJECT_NAME: ${{ vars.ALIYUN_OSS_OBJECT_NAME }}

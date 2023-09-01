@@ -1,5 +1,6 @@
 const fs = require('fs')
 const minio = require('minio')
+const aliyunOSS = require('ali-oss');
 
 const DIR = 'assets'
 const SUFFIX = 'json'
@@ -8,20 +9,30 @@ const DIST = 'index.json'
 const CLASS_DESC = process.env['CLASS_DESC']
 const CLASS_NAME = process.env['CLASS_NAME']
 
-const ENDPOINT = process.env['ENDPOINT']
-const PORT = process.env['PORT']
-const ACCESS_KEY = process.env['ACCESS_KEY']
-const SECRET_KEY = process.env['SECRET_KEY']
+const MINIO_ENDPOINT = process.env['MINIO_ENDPOINT']
+const MINIO_PORT = process.env['MINIO_PORT']
+const MINIO_ACCESS_KEY = process.env['MINIO_ACCESS_KEY']
+const MINIO_SECRET_KEY = process.env['MINIO_SECRET_KEY']
 // BUCKET_NAME cdn
-const BUCKET_NAME = process.env['BUCKET_NAME']
+const MINIO_BUCKET_NAME = process.env['MINIO_BUCKET_NAME']
 // OBJECT_NAME friend-link/index.json
-const OBJECT_NAME = process.env['OBJECT_NAME']
+const MINIO_OBJECT_NAME = process.env['MINIO_OBJECT_NAME']
 // COMMIT_ID
 const COMMIT_ID = process.env['COMMIT_ID'].substring(0, 6)
 // OBJECT_NAMES 上传两个版本，一个覆盖index.json，一个携带commitID
-const OBJECT_NAMES = [
-    OBJECT_NAME,
-    `${OBJECT_NAME}.${COMMIT_ID}`
+const MINIO_OBJECT_NAMES = [
+    MINIO_OBJECT_NAME,
+    `${MINIO_OBJECT_NAME}.${COMMIT_ID}`
+]
+
+const ALIYUN_OSS_REGION = process.env['ALIYUN_OSS_REGION']
+const ALIYUN_OSS_BUCKET = process.env['ALIYUN_OSS_BUCKET']
+const ALIYUN_OSS_ACCESS_KEY = process.env['ALIYUN_OSS_ACCESS_KEY']
+const ALIYUN_OSS_SECRET_KEY = process.env['ALIYUN_OSS_SECRET_KEY']
+const ALIYUN_OSS_OBJECT_NAME = process.env['ALIYUN_OSS_OBJECT_NAME']
+const ALIYUN_OSS_OBJECT_NAMES = [
+    ALIYUN_OSS_OBJECT_NAME,
+    `${ALIYUN_OSS_OBJECT_NAME}.${COMMIT_ID}`
 ]
 
 function read() {
@@ -68,24 +79,24 @@ function generate() {
     fs.writeFileSync(`${DIST}`, content)
 }
 
-function minioUpload() {
+function upload2Minio() {
     // Instantiate the minio client with the endpoint
     // and access keys as shown below.
     let client = new minio.Client({
-        endPoint: ENDPOINT,
-        port: Number(PORT),
+        endPoint: MINIO_ENDPOINT,
+        port: Number(MINIO_PORT),
         useSSL: false,
-        accessKey: ACCESS_KEY,
-        secretKey: SECRET_KEY
+        accessKey: MINIO_ACCESS_KEY,
+        secretKey: MINIO_SECRET_KEY
     })
 
-    OBJECT_NAMES.forEach(objectName => {
+    MINIO_OBJECT_NAMES.forEach(objectName => {
         client.fPutObject(
-            BUCKET_NAME,
+            MINIO_BUCKET_NAME,
             objectName,
-            'index.json',
+            DIST,
             {
-                'Content-Type': 'application/json; charset=utf-8'
+                "Content-Type": "application/json; charset=utf-8"
             },
             (err, obj) => {
                 if (err) {
@@ -98,7 +109,32 @@ function minioUpload() {
     });
 }
 
+function upload2AliyunOSS() {
+    let client = new aliyunOSS({
+        region: ALIYUN_OSS_REGION,
+        accessKeyId: ALIYUN_OSS_ACCESS_KEY,
+        accessKeySecret: ALIYUN_OSS_SECRET_KEY,
+        bucket: ALIYUN_OSS_BUCKET
+    })
+
+    let headers = {
+        "Content-Type": "application/json; charset=utf-8"
+    }
+
+    ALIYUN_OSS_OBJECT_NAMES.forEach(objectName => {
+        client.put(objectName, DIST, {headers})
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+            process.exit(1)
+        })
+    })
+}
+
 (function main() {
     generate()
-    minioUpload()
+    upload2Minio()
+    upload2AliyunOSS()
 })()

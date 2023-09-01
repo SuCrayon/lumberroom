@@ -19,6 +19,7 @@
   "email": "sucrayon@foxmail.com",
   "license": "ISC",
   "devDependencies": {
+    "ali-oss": "^6.18.0",
     "minio": "^7.1.1",
     "request": "^2.88.2"
   }
